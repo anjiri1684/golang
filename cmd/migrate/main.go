@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/anjiri1684/ecom/config"
+	"github.com/anjiri1684/ecom/configs"
 	"github.com/anjiri1684/ecom/db"
 	mysqlCfg "github.com/go-sql-driver/mysql"
 	"github.com/golang-migrate/migrate/v4"
@@ -15,10 +15,10 @@ import (
 
 func main() {
 	db, err := db.NewMySQlStorage(mysqlCfg.Config{
-		User:                 config.Envs.DBUser,
-		Passwd:               config.Envs.DBPassword,
-		Addr:                 config.Envs.DBAddress,
-		DBName:               config.Envs.DBName,
+		User:                 configs.Envs.DBUser,
+		Passwd:               configs.Envs.DBPassword,
+		Addr:                 configs.Envs.DBAddress,
+		DBName:               configs.Envs.DBName,
 		Net:                  "tcp",
 		AllowNativePasswords: true,
 		ParseTime:            true,

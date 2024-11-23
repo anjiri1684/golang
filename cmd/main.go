@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"github.com/anjiri1684/ecom/cmd/api"
-	"github.com/anjiri1684/ecom/config"
+	"github.com/anjiri1684/ecom/configs"
 	"github.com/anjiri1684/ecom/db"
 	"github.com/go-sql-driver/mysql"
 )
@@ -13,10 +13,10 @@ import (
 func main() {
 
 db, err := db.NewMySQlStorage(mysql.Config{
-	User: config.Envs.DBUser,
-	Passwd: config.Envs.DBPassword,
-	Addr: config.Envs.DBAddress,
-	DBName: config.Envs.DBName,
+	User: configs.Envs.DBUser,
+	Passwd: configs.Envs.DBPassword,
+	Addr: configs.Envs.DBAddress,
+	DBName: configs.Envs.DBName,
 	Net: "tcp",
 	AllowNativePasswords: true,
 	ParseTime: true,

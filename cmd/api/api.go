@@ -5,13 +5,16 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/anjiri1684/ecom/service/cart"
+	"github.com/anjiri1684/ecom/service/order"
+	"github.com/anjiri1684/ecom/service/product"
 	"github.com/anjiri1684/ecom/service/user"
 	"github.com/gorilla/mux"
 )
 
 type APIServer struct {
 	addr string
-	db    *sql.DB
+	db   *sql.DB
 }
 
 func NewAPIServer(addr string, db *sql.DB) *APIServer {
@@ -21,16 +24,27 @@ func NewAPIServer(addr string, db *sql.DB) *APIServer {
 	}
 }
 
-
-func (s *APIServer)Run() error {
+func (s *APIServer) Run() error {
 	router := mux.NewRouter()
 	subrouter := router.PathPrefix("/api/v1").Subrouter()
 
 	userStore := user.NewStore(s.db)
 	userHandler := user.NewHandler(userStore)
-userHandler.RegisterRoutes(subrouter)
+	userHandler.RegisterRoutes(subrouter)
 
+	productStore := product.NewStore(s.db)
+	productHandler := product.NewHandler(productStore, userStore)
+	productHandler.RegisterRoutes(subrouter)
 
-log.Println("listening on", s.addr)
+	orderStore := order.NewStore(s.db)
+
+	cartHandler := cart.NewHandler(productStore, orderStore, userStore)
+	cartHandler.RegisterRoutes(subrouter)
+
+	// Serve static files
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir("static")))
+
+	log.Println("Listening on", s.addr)
+
 	return http.ListenAndServe(s.addr, router)
 }

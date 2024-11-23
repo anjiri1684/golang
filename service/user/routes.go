@@ -5,8 +5,12 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/anjiri1684/ecom/configs"
+	"github.com/anjiri1684/ecom/service/auth"
 	"github.com/anjiri1684/ecom/types"
+	"github.com/anjiri1684/ecom/utils"
 	"github.com/go-playground/validator/v10"
+
 	"github.com/gorilla/mux"
 )
 
