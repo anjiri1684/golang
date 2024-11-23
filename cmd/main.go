@@ -22,9 +22,12 @@ db, err := db.NewMySQlStorage(mysql.Config{
 	ParseTime: true,
 })
 
+
 if err != nil {
 	log.Fatal(err)
 }
+
+initStorage(db)
 
 	server := api.NewAPIServer(":8080", db)
 	if err := server.Run(); err != nil {
